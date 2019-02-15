@@ -9,12 +9,14 @@ apply(f::F, a::Tuple{A,Vararg}, b::Tuple{B,Vararg}, args...) where {F,A,B} =
     (f(a[1], b[1], args...), apply(f, tail(a), tail(b), args...)...)
 apply(f::F, a::Tuple{A,Vararg}, b::Tuple{B,Vararg}, c::Tuple{C,Vararg}, args...) where {F,A,B,C} = 
     (f(a[1], b[1], c[1], args...), apply(f, tail(a), tail(b), tail(c), args...)...)
-apply(f::F, a::Tuple{A,Vararg}, b::Tuple{B,Vararg}, c::Tuple{C,Vararg}, d::Tuple{D,Vararg}, args...) where {F,A,B,C,D} = 
-    (f(a[1], b[1], c[1], d[1], args...), apply(f, tail(a), tail(b), tail(c), tail(d), args...)...)
-apply(f, ::Tuple{}, args...) = ()
-apply(f, a, ::Tuple{}, args...) = ()
+
+apply(f, ::Tuple{}, ::Tuple{}, ::Tuple{}, args...) = ()
+apply(f, a, ::Tuple{}, ::Tuple{}, args...) = ()
+apply(f, ::Tuple{}, b, ::Tuple{}, args...) = ()
 apply(f, a, b, ::Tuple{}, args...) = ()
-apply(f, a, b, c, ::Tuple{}, args...) = ()
+apply(f, ::Tuple{}, ::Tuple{}, args...) = ()
+apply(f, a, ::Tuple{}, args...) = ()
+apply(f, ::Tuple{}, args...) = ()
 
 
 offset_apply(f, o::Tuple{O,Vararg}, a::AbstractArray, offset::Int, args...) where O = begin
